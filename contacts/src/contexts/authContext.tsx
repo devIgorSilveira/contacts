@@ -12,6 +12,7 @@ interface AuthProviderData {
   registerUser: (data: ICreateUserBody) => void;
   getUserProfile: () => void;
   getContactsOfaUser: () => void;
+  registerContact: (data: ICreateContactBody) => void;
   token: string | undefined;
   user: IUserData | null;
 }
@@ -170,6 +171,7 @@ export const AuthProvider = ({ children }: IChildren) => {
         registerUser,
         getUserProfile,
         getContactsOfaUser,
+        registerContact,
         token,
         user,
         setToken,
