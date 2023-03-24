@@ -5,11 +5,13 @@ import { IChildren } from "@/interfaces/misc";
 import { IUserLogin, ICreateUserBody, IUserData } from "@/interfaces/users";
 import { api } from "@/services/api";
 import { useToast, Box } from "@chakra-ui/react";
+import { IContactData } from "@/interfaces/contacts";
 interface AuthProviderData {
   setToken: (value: string) => void;
   login: (data: IUserLogin) => void;
   registerUser: (data: ICreateUserBody) => void;
   getUserProfile: () => void;
+  getContactsOfaUser: () => void;
   token: string | undefined;
   user: IUserData | null;
 }
@@ -19,6 +21,7 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: IChildren) => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<IUserData | null>(null);
+  const [contacts, setContacts] = useState<IContactData[] | null>(null);
 
   useEffect(() => {
     getUserProfile();
@@ -118,9 +121,32 @@ export const AuthProvider = ({ children }: IChildren) => {
       });
   };
 
+  const getContactsOfaUser = () => {
+    api
+      .get("/contacts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setContacts(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ login, registerUser, getUserProfile, token, user, setToken }}
+      value={{
+        login,
+        registerUser,
+        getUserProfile,
+        getContactsOfaUser,
+        token,
+        user,
+        setToken,
+      }}
     >
       {children}
     </AuthContext.Provider>
