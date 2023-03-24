@@ -7,10 +7,17 @@ import nookies from "nookies";
 import { AddIcon } from "@chakra-ui/icons";
 import GeneralModal from "@/components/generalModal";
 import { useModal } from "@/contexts/modalContext";
+import RegisterContactForm from "@/components/registerContactForm";
 
 const Dashboard = () => {
   const { contacts } = useAuth();
-  const { onOpen } = useModal();
+  const { onOpen, setModalType, modalType } = useModal();
+
+  const openRegisterContactModal = () => {
+    setModalType("regContact");
+    onOpen();
+    console.log(modalType);
+  };
 
   return (
     <>
@@ -21,7 +28,7 @@ const Dashboard = () => {
           variant={"solid"}
           color={"white"}
           leftIcon={<AddIcon />}
-          onClick={onOpen}
+          onClick={openRegisterContactModal}
         >
           Adicinar novo contato
         </Button>
@@ -32,7 +39,7 @@ const Dashboard = () => {
         ))}
       </Flex>
       <GeneralModal>
-        <Text>aaa</Text>
+        {modalType == "regContact" ? <RegisterContactForm /> : <Text>aaa</Text>}
       </GeneralModal>
     </>
   );
