@@ -17,7 +17,13 @@ const ContactCard = (data: IContactDataProp) => {
     data: { id, first_name, last_name, email, phone, createdAt },
   } = data;
 
-  const { onOpen } = useModal();
+  const { onOpen, setModalType, setActualId } = useModal();
+
+  const openDeleteModal = () => {
+    setModalType("delContact");
+    setActualId(id);
+    onOpen();
+  };
 
   return (
     <Card as={"li"} w={"calc(90%/3)"} border={"2px"} borderColor={"blue.500"}>
@@ -48,7 +54,11 @@ const ContactCard = (data: IContactDataProp) => {
           <Button bg={"blue.500"} leftIcon={<EditIcon />} onClick={onOpen}>
             Editar
           </Button>
-          <Button bg={"red.500"} leftIcon={<DeleteIcon />} onClick={onOpen}>
+          <Button
+            bg={"red.500"}
+            leftIcon={<DeleteIcon />}
+            onClick={openDeleteModal}
+          >
             Deletar
           </Button>
         </ButtonGroup>

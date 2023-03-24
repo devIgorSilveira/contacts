@@ -8,6 +8,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import GeneralModal from "@/components/generalModal";
 import { useModal } from "@/contexts/modalContext";
 import RegisterContactForm from "@/components/registerContactForm";
+import DeleteContactModal from "@/components/deleteContactModal";
 
 const Dashboard = () => {
   const { contacts } = useAuth();
@@ -16,7 +17,6 @@ const Dashboard = () => {
   const openRegisterContactModal = () => {
     setModalType("regContact");
     onOpen();
-    console.log(modalType);
   };
 
   return (
@@ -39,7 +39,13 @@ const Dashboard = () => {
         ))}
       </Flex>
       <GeneralModal>
-        {modalType == "regContact" ? <RegisterContactForm /> : <Text>aaa</Text>}
+        {modalType == "regContact" ? (
+          <RegisterContactForm />
+        ) : modalType == "delContact" ? (
+          <DeleteContactModal />
+        ) : (
+          <Text>aaa</Text>
+        )}
       </GeneralModal>
     </>
   );

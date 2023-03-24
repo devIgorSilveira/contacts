@@ -13,6 +13,7 @@ interface AuthProviderData {
   getUserProfile: () => void;
   getContactsOfaUser: () => void;
   registerContact: (data: ICreateContactBody) => void;
+  deleteContact: (id: string) => void;
   token: string | undefined;
   user: IUserData | null;
   contacts: IContactData[] | null;
@@ -170,6 +171,33 @@ export const AuthProvider = ({ children }: IChildren) => {
       });
   };
 
+  const deleteContact = (id: string) => {
+    api
+      .delete(`/contacts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast({
+          title: "success",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"green.300"}>
+              {`Contato deletado com sucesso!`}
+            </Box>
+          ),
+        });
+        getContactsOfaUser();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -178,6 +206,7 @@ export const AuthProvider = ({ children }: IChildren) => {
         getUserProfile,
         getContactsOfaUser,
         registerContact,
+        deleteContact,
         token,
         user,
         contacts,

@@ -8,18 +8,29 @@ interface ModalProviderData {
   onOpen: () => void;
   modalType: string;
   setModalType: (value: string) => void;
+  actualId: string;
+  setActualId: (value: string) => void;
 }
 
 const ModalContext = createContext<ModalProviderData>({} as ModalProviderData);
 
 export const ModalProvider = ({ children }: IChildren) => {
   const [modalType, setModalType] = useState<string>("");
+  const [actualId, setActualId] = useState<string>("");
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <ModalContext.Provider
-      value={{ isOpen, onClose, onOpen, modalType, setModalType }}
+      value={{
+        isOpen,
+        onClose,
+        onOpen,
+        modalType,
+        setModalType,
+        actualId,
+        setActualId,
+      }}
     >
       {children}
     </ModalContext.Provider>
