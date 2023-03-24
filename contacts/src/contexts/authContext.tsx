@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { setCookie } from "nookies";
+import { setCookie, parseCookies } from "nookies";
 import { useRouter } from "next/router";
 import { IChildren } from "@/interfaces/misc";
 import { IUserLogin, ICreateUserBody, IUserData } from "@/interfaces/users";
@@ -21,7 +21,9 @@ interface AuthProviderData {
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 
 export const AuthProvider = ({ children }: IChildren) => {
-  const [token, setToken] = useState<string>();
+  const cookies = parseCookies();
+
+  const [token, setToken] = useState<string>(cookies["@contacts:token"] || "");
   const [user, setUser] = useState<IUserData | null>(null);
   const [contacts, setContacts] = useState<IContactData[] | null>(null);
 

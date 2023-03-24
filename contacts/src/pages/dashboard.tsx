@@ -1,21 +1,14 @@
 import ContactCard from "@/components/contactCard";
 import Header from "@/components/header";
 import { useAuth } from "@/contexts/authContext";
-import { IDashboardProps } from "@/interfaces/misc";
 import { Button, Flex } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import nookies from "nookies";
-import { useEffect } from "react";
 import { AddIcon } from "@chakra-ui/icons";
 
-const Dashboard = ({ cookieToken }: IDashboardProps) => {
-  const { setToken, contacts } = useAuth();
+const Dashboard = () => {
+  const { contacts } = useAuth();
 
-  useEffect(() => {
-    setToken(cookieToken);
-  }, []);
-
-  console.log("+++");
   return (
     <>
       <Header />
@@ -53,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   return {
-    props: { cookieToken: token },
+    props: {},
   };
 };
 
