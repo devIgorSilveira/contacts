@@ -24,3 +24,10 @@ export interface ICreateContactBody {
   email: string;
   phone: string;
 }
+
+export interface IUpdateContact {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  phone?: string;
+}

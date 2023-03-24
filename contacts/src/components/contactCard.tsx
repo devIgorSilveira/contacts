@@ -25,6 +25,12 @@ const ContactCard = (data: IContactDataProp) => {
     onOpen();
   };
 
+  const openUpdateModal = () => {
+    setModalType("uptContact");
+    setActualId(id);
+    onOpen();
+  };
+
   return (
     <Card as={"li"} w={"calc(90%/3)"} border={"2px"} borderColor={"blue.500"}>
       <CardHeader bg={"blue.500"}>
@@ -51,7 +57,11 @@ const ContactCard = (data: IContactDataProp) => {
           display={"flex"}
           justifyContent={"space-around"}
         >
-          <Button bg={"blue.500"} leftIcon={<EditIcon />} onClick={onOpen}>
+          <Button
+            bg={"blue.500"}
+            leftIcon={<EditIcon />}
+            onClick={openUpdateModal}
+          >
             Editar
           </Button>
           <Button

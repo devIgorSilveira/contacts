@@ -9,6 +9,7 @@ import GeneralModal from "@/components/generalModal";
 import { useModal } from "@/contexts/modalContext";
 import RegisterContactForm from "@/components/registerContactForm";
 import DeleteContactModal from "@/components/deleteContactModal";
+import UpdateContactForm from "@/components/updateContactForm";
 
 const Dashboard = () => {
   const { contacts } = useAuth();
@@ -43,6 +44,8 @@ const Dashboard = () => {
           <RegisterContactForm />
         ) : modalType == "delContact" ? (
           <DeleteContactModal />
+        ) : modalType == "uptContact" ? (
+          <UpdateContactForm />
         ) : (
           <Text>aaa</Text>
         )}

@@ -5,7 +5,11 @@ import { IChildren } from "@/interfaces/misc";
 import { IUserLogin, ICreateUserBody, IUserData } from "@/interfaces/users";
 import { api } from "@/services/api";
 import { useToast, Box } from "@chakra-ui/react";
-import { IContactData, ICreateContactBody } from "@/interfaces/contacts";
+import {
+  IContactData,
+  ICreateContactBody,
+  IUpdateContact,
+} from "@/interfaces/contacts";
 interface AuthProviderData {
   setToken: (value: string) => void;
   login: (data: IUserLogin) => void;
@@ -14,6 +18,7 @@ interface AuthProviderData {
   getContactsOfaUser: () => void;
   registerContact: (data: ICreateContactBody) => void;
   deleteContact: (id: string) => void;
+  updateContact: (id: string, body: IUpdateContact) => void;
   token: string | undefined;
   user: IUserData | null;
   contacts: IContactData[] | null;
@@ -33,6 +38,7 @@ export const AuthProvider = ({ children }: IChildren) => {
       getUserProfile();
       getContactsOfaUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const toast = useToast();
@@ -198,6 +204,45 @@ export const AuthProvider = ({ children }: IChildren) => {
       });
   };
 
+  const updateContact = (id: string, body: IUpdateContact) => {
+    api
+      .patch(`/contacts/${id}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast({
+          title: "success",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"green.300"}>
+              {`Contato atualizado com sucesso!`}
+            </Box>
+          ),
+        });
+        getContactsOfaUser();
+      })
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "error",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"red.300"}>
+              {err.response?.data ? err.response.data.message : err.message}
+            </Box>
+          ),
+        });
+      });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -207,6 +252,7 @@ export const AuthProvider = ({ children }: IChildren) => {
         getContactsOfaUser,
         registerContact,
         deleteContact,
+        updateContact,
         token,
         user,
         contacts,
