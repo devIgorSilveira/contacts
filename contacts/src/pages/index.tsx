@@ -18,6 +18,7 @@ import { userLoginSchema } from "@/schemas/users";
 import { useAuth } from "@/contexts/authContext";
 import { useRouter } from "next/router";
 import nookies from "nookies";
+import { GetServerSideProps } from "next";
 
 const Home = () => {
   const [emailError, setEmailError] = useState(false);
@@ -113,3 +114,20 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const cookies = nookies.get(ctx);
+
+  if (cookies["@contacts:token"]) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
