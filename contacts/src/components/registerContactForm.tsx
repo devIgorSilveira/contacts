@@ -56,7 +56,7 @@ const RegisterContactForm = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Heading color={"blue.500"} alignSelf={"center"}>
-          Cadastre-se
+          Criação
         </Heading>
         <FormLabel>Primeiro nome</FormLabel>
         <Input
