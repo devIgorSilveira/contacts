@@ -15,6 +15,7 @@ interface AuthProviderData {
   registerContact: (data: ICreateContactBody) => void;
   token: string | undefined;
   user: IUserData | null;
+  contacts: IContactData[] | null;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -27,8 +28,9 @@ export const AuthProvider = ({ children }: IChildren) => {
   useEffect(() => {
     if (token) {
       getUserProfile();
+      getContactsOfaUser();
     }
-  });
+  }, [token]);
 
   const toast = useToast();
 
@@ -176,6 +178,7 @@ export const AuthProvider = ({ children }: IChildren) => {
         registerContact,
         token,
         user,
+        contacts,
         setToken,
       }}
     >

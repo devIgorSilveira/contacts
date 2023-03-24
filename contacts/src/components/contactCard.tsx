@@ -9,15 +9,12 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { IContactData } from "@/interfaces/contacts";
+import { IContactDataProp } from "@/interfaces/contacts";
 
-const ContactCard = ({
-  first_name,
-  last_name,
-  email,
-  phone,
-  createdAt,
-}: IContactData) => {
+const ContactCard = (data: IContactDataProp) => {
+  const {
+    data: { first_name, last_name, email, phone, createdAt },
+  } = data;
   return (
     <Card as={"li"} w={"calc(90%/3)"} border={"2px"} borderColor={"blue.500"}>
       <CardHeader bg={"blue.500"}>
@@ -27,15 +24,13 @@ const ContactCard = ({
           fontWeight={"bold"}
           color={"white"}
         >
-          `${first_name} ${last_name}`
+          {`${first_name} ${last_name}`}
         </Heading>
       </CardHeader>
       <CardBody textAlign={"center"}>
-        <Text>`Email: ${email}`</Text>
-        <Text>
-          Phone: `(${phone.slice(0, 2)}) ${phone.slice(2)}`
-        </Text>
-        <Text>`Adicionado em: ${createdAt}`</Text>
+        <Text>{`Email: ${email}`}</Text>
+        <Text>{`Phone: (${phone.slice(0, 2)}) ${phone.slice(2)}`}</Text>
+        <Text>{`Adicionado em: ${createdAt}`}</Text>
       </CardBody>
       <CardFooter>
         <ButtonGroup
