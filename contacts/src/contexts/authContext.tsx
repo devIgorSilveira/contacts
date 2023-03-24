@@ -9,6 +9,7 @@ import { useToast, Box } from "@chakra-ui/react";
 interface AuthProviderData {
   setToken: (value: string) => void;
   login: (data: IUserLogin) => void;
+  registerUser: (data: ICreateUserBody) => void;
   token: string | undefined;
   user: IUserData | null;
 }
@@ -61,8 +62,46 @@ export const AuthProvider = ({ children }: IChildren) => {
         });
       });
   };
+
+  const registerUser = (body: ICreateUserBody) => {
+    api
+      .post("/users", body)
+      .then((res) => {
+        toast({
+          title: "success",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"green.300"}>
+              Conta criada com sucesso!
+            </Box>
+          ),
+        });
+
+        router.push("/");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "error",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"red.300"}>
+              {err.response?.data ? err.response.data.message : err.message}
+            </Box>
+          ),
+        });
+      });
+  };
   return (
-    <AuthContext.Provider value={{ login, token, user, setToken }}>
+    <AuthContext.Provider
+      value={{ login, registerUser, token, user, setToken }}
+    >
       {children}
     </AuthContext.Provider>
   );
