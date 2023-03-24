@@ -1,13 +1,16 @@
 import ContactCard from "@/components/contactCard";
 import Header from "@/components/header";
 import { useAuth } from "@/contexts/authContext";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import nookies from "nookies";
 import { AddIcon } from "@chakra-ui/icons";
+import GeneralModal from "@/components/generalModal";
+import { useModal } from "@/contexts/modalContext";
 
 const Dashboard = () => {
   const { contacts } = useAuth();
+  const { onOpen } = useModal();
 
   return (
     <>
@@ -18,6 +21,7 @@ const Dashboard = () => {
           variant={"solid"}
           color={"white"}
           leftIcon={<AddIcon />}
+          onClick={onOpen}
         >
           Adicinar novo contato
         </Button>
@@ -27,6 +31,9 @@ const Dashboard = () => {
           <ContactCard key={contact.id} data={contact} />
         ))}
       </Flex>
+      <GeneralModal>
+        <Text>aaa</Text>
+      </GeneralModal>
     </>
   );
 };

@@ -4,11 +4,14 @@ import { useState } from "react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { destroyCookie } from "nookies";
 import { useRouter } from "next/router";
+import { useModal } from "@/contexts/modalContext";
 
 const MenuHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
+
+  const { onOpen } = useModal();
 
   const logout = () => {
     destroyCookie(null, "@contacts:token");
@@ -28,8 +31,8 @@ const MenuHeader = () => {
         Menu
       </MenuButton>
       <MenuList color={"blue.500"}>
-        <MenuItem>Atulizar seus dados</MenuItem>
-        <MenuItem>Deletar sua conta</MenuItem>
+        <MenuItem onClick={onOpen}>Atulizar seus dados</MenuItem>
+        <MenuItem onClick={onOpen}>Deletar sua conta</MenuItem>
         <MenuItem onClick={() => logout()}>Sair</MenuItem>
       </MenuList>
     </Menu>

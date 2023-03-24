@@ -10,11 +10,15 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { IContactDataProp } from "@/interfaces/contacts";
+import { useModal } from "@/contexts/modalContext";
 
 const ContactCard = (data: IContactDataProp) => {
   const {
-    data: { first_name, last_name, email, phone, createdAt },
+    data: { id, first_name, last_name, email, phone, createdAt },
   } = data;
+
+  const { onOpen } = useModal();
+
   return (
     <Card as={"li"} w={"calc(90%/3)"} border={"2px"} borderColor={"blue.500"}>
       <CardHeader bg={"blue.500"}>
@@ -41,10 +45,10 @@ const ContactCard = (data: IContactDataProp) => {
           display={"flex"}
           justifyContent={"space-around"}
         >
-          <Button bg={"blue.500"} leftIcon={<EditIcon />}>
+          <Button bg={"blue.500"} leftIcon={<EditIcon />} onClick={onOpen}>
             Editar
           </Button>
-          <Button bg={"red.500"} leftIcon={<DeleteIcon />}>
+          <Button bg={"red.500"} leftIcon={<DeleteIcon />} onClick={onOpen}>
             Deletar
           </Button>
         </ButtonGroup>
