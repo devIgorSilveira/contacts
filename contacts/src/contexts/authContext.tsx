@@ -25,8 +25,10 @@ export const AuthProvider = ({ children }: IChildren) => {
   const [contacts, setContacts] = useState<IContactData[] | null>(null);
 
   useEffect(() => {
-    getUserProfile();
-  }, [token]);
+    if (token) {
+      getUserProfile();
+    }
+  });
 
   const toast = useToast();
 

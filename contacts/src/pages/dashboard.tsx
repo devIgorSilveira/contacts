@@ -10,7 +10,7 @@ const Dashboard = ({ cookieToken }: IDashboardProps) => {
 
   useEffect(() => {
     setToken(cookieToken);
-  }, []);
+  });
 
   return <Header></Header>;
 };
