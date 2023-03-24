@@ -1,15 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { setCookie } from "nookies";
 import { useRouter } from "next/router";
 import { IChildren } from "@/interfaces/misc";
 import { IUserLogin, ICreateUserBody, IUserData } from "@/interfaces/users";
 import { api } from "@/services/api";
 import { useToast, Box } from "@chakra-ui/react";
-
 interface AuthProviderData {
   setToken: (value: string) => void;
   login: (data: IUserLogin) => void;
   registerUser: (data: ICreateUserBody) => void;
+  getUserProfile: () => void;
   token: string | undefined;
   user: IUserData | null;
 }
@@ -19,6 +19,10 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: IChildren) => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<IUserData | null>(null);
+
+  useEffect(() => {
+    getUserProfile();
+  }, [token]);
 
   const toast = useToast();
 
@@ -98,9 +102,25 @@ export const AuthProvider = ({ children }: IChildren) => {
         });
       });
   };
+
+  const getUserProfile = () => {
+    api
+      .get("/users/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ login, registerUser, token, user, setToken }}
+      value={{ login, registerUser, getUserProfile, token, user, setToken }}
     >
       {children}
     </AuthContext.Provider>
