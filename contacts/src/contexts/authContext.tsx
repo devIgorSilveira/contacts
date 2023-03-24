@@ -5,7 +5,7 @@ import { IChildren } from "@/interfaces/misc";
 import { IUserLogin, ICreateUserBody, IUserData } from "@/interfaces/users";
 import { api } from "@/services/api";
 import { useToast, Box } from "@chakra-ui/react";
-import { IContactData } from "@/interfaces/contacts";
+import { IContactData, ICreateContactBody } from "@/interfaces/contacts";
 interface AuthProviderData {
   setToken: (value: string) => void;
   login: (data: IUserLogin) => void;
@@ -130,6 +130,33 @@ export const AuthProvider = ({ children }: IChildren) => {
       })
       .then((res) => {
         setContacts(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const registerContact = (body: ICreateContactBody) => {
+    api
+      .post("/contacts", body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast({
+          title: "success",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"green.300"}>
+              {`Contato ${res.data.first_name} criado com sucesso!`}
+            </Box>
+          ),
+        });
+        getContactsOfaUser();
       })
       .catch((err) => {
         console.error(err);

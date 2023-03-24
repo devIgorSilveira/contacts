@@ -6,3 +6,10 @@ export interface IContactData {
   phone: string;
   createdAt: string;
 }
+
+export interface ICreateContactBody {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+}
