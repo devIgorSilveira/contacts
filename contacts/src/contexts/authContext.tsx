@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: IChildren) => {
           variant: "solid",
           position: "top-right",
           isClosable: true,
+          duration: 2000,
           render: () => (
             <Box color={"white"} p={3} bg={"green.300"}>
               Login realizado com sucesso!
@@ -51,6 +52,7 @@ export const AuthProvider = ({ children }: IChildren) => {
           variant: "solid",
           position: "top-right",
           isClosable: true,
+          duration: 2000,
           render: () => (
             <Box color={"white"} p={3} bg={"red.300"}>
               {err.response?.data ? err.response.data.message : err.message}
