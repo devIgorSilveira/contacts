@@ -2,7 +2,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { setCookie, parseCookies } from "nookies";
 import { useRouter } from "next/router";
 import { IChildren } from "@/interfaces/misc";
-import { IUserLogin, ICreateUserBody, IUserData } from "@/interfaces/users";
+import {
+  IUserLogin,
+  ICreateUserBody,
+  IUserData,
+  IUpdateUser,
+} from "@/interfaces/users";
 import { api } from "@/services/api";
 import { useToast, Box } from "@chakra-ui/react";
 import {
@@ -19,6 +24,7 @@ interface AuthProviderData {
   registerContact: (data: ICreateContactBody) => void;
   deleteContact: (id: string) => void;
   updateContact: (id: string, body: IUpdateContact) => void;
+  updateUser: (id: string, body: IUpdateUser) => void;
   token: string | undefined;
   user: IUserData | null;
   contacts: IContactData[] | null;
@@ -129,6 +135,33 @@ export const AuthProvider = ({ children }: IChildren) => {
       })
       .then((res) => {
         setUser(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const updateUser = (id: string, body: IUpdateUser) => {
+    api
+      .patch(`/users/${id}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast({
+          title: "success",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"green.300"}>
+              {`Usuário atualizado com sucesso!`}
+            </Box>
+          ),
+        });
+        getUserProfile();
       })
       .catch((err) => {
         console.error(err);
@@ -250,6 +283,7 @@ export const AuthProvider = ({ children }: IChildren) => {
         registerUser,
         getUserProfile,
         getContactsOfaUser,
+        updateUser,
         registerContact,
         deleteContact,
         updateContact,

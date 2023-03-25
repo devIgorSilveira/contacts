@@ -20,3 +20,11 @@ export interface IUserData {
   phone: string;
   createdAt: string;
 }
+
+export interface IUpdateUser {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+}

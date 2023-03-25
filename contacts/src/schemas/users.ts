@@ -12,3 +12,11 @@ export const createUserSchema = yup.object().shape({
   password: yup.string().required().max(150),
   phone: yup.string().required().min(11).max(11),
 });
+
+export const updateUserSchema = yup.object().shape({
+  first_name: yup.string().max(127),
+  last_name: yup.string().max(127),
+  email: yup.string().email().max(127),
+  password: yup.string().max(150),
+  phone: yup.string(),
+});
