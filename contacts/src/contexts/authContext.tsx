@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { setCookie, parseCookies } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 import { useRouter } from "next/router";
 import { IChildren } from "@/interfaces/misc";
 import {
@@ -25,6 +25,7 @@ interface AuthProviderData {
   deleteContact: (id: string) => void;
   updateContact: (id: string, body: IUpdateContact) => void;
   updateUser: (id: string, body: IUpdateUser) => void;
+  deleteUser: (id: string) => void;
   token: string | undefined;
   user: IUserData | null;
   contacts: IContactData[] | null;
@@ -168,6 +169,34 @@ export const AuthProvider = ({ children }: IChildren) => {
       });
   };
 
+  const deleteUser = (id: string) => {
+    api
+      .delete(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast({
+          title: "success",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          duration: 2000,
+          render: () => (
+            <Box color={"white"} p={3} bg={"green.300"}>
+              {`Usuário deletado com sucesso!`}
+            </Box>
+          ),
+        });
+        destroyCookie(null, "@contacts:token");
+        router.push("/");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const getContactsOfaUser = () => {
     api
       .get("/contacts", {
@@ -284,6 +313,7 @@ export const AuthProvider = ({ children }: IChildren) => {
         getUserProfile,
         getContactsOfaUser,
         updateUser,
+        deleteUser,
         registerContact,
         deleteContact,
         updateContact,

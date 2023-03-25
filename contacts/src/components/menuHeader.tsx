@@ -24,7 +24,13 @@ const MenuHeader = () => {
 
   const openUpdateModal = () => {
     setModalType("uptUser");
-    setActualId(user?.id);
+    setActualId(user!.id);
+    onOpen();
+  };
+
+  const openDeleteModal = () => {
+    setModalType("delUser");
+    setActualId(user!.id);
     onOpen();
   };
 
@@ -41,7 +47,7 @@ const MenuHeader = () => {
       </MenuButton>
       <MenuList color={"blue.500"}>
         <MenuItem onClick={openUpdateModal}>Atulizar seus dados</MenuItem>
-        <MenuItem onClick={onOpen}>Deletar sua conta</MenuItem>
+        <MenuItem onClick={openDeleteModal}>Deletar sua conta</MenuItem>
         <MenuItem onClick={() => logout()}>Sair</MenuItem>
       </MenuList>
     </Menu>

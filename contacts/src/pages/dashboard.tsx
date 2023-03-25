@@ -11,6 +11,7 @@ import RegisterContactForm from "@/components/registerContactForm";
 import DeleteContactModal from "@/components/deleteContactModal";
 import UpdateContactForm from "@/components/updateContactForm";
 import UpdateUserForm from "@/components/updateUserForm";
+import DeleteUserModal from "@/components/deleteUserModal";
 
 const Dashboard = () => {
   const { contacts } = useAuth();
@@ -49,9 +50,9 @@ const Dashboard = () => {
           <UpdateContactForm />
         ) : modalType == "uptUser" ? (
           <UpdateUserForm />
-        ) : (
-          <Text>aaa</Text>
-        )}
+        ) : modalType == "delUser" ? (
+          <DeleteUserModal />
+        ) : null}
       </GeneralModal>
     </>
   );
